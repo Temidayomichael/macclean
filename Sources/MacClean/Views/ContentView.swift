@@ -2,12 +2,15 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var appsModel = AppsViewModel()
+    @StateObject private var installersModel = InstallersViewModel()
     @StateObject private var cleanModel = CleanViewModel()
 
     var body: some View {
         TabView {
             AppsView(model: appsModel)
                 .tabItem { Label("Apps", systemImage: "square.grid.2x2") }
+            InstallersView(model: installersModel)
+                .tabItem { Label("Installers", systemImage: "shippingbox") }
             CleanView(model: cleanModel)
                 .tabItem { Label("Clean", systemImage: "sparkles") }
         }

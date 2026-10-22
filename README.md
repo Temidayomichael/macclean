@@ -16,9 +16,17 @@ No ads, no subscriptions, no background helpers. One window, two tabs.
 
 ![Apps tab](docs/screenshot-apps.png)
 
+**Installers tab**: old disk images and packages, with the ones already installed marked.
+
+![Installers tab](docs/screenshot-installers.png)
+
 **Clean tab**: measure the junk, tick what to clear, clean.
 
 ![Clean tab](docs/screenshot-clean.png)
+
+**Dark mode**: MacClean follows your system appearance.
+
+![Apps tab in dark mode](docs/screenshot-apps-dark.png)
 
 *These are rendered previews of the interface (see `docs/previews`), not captures from a running Mac. Real screenshots are welcome in a pull request.*
 
@@ -30,6 +38,11 @@ No ads, no subscriptions, no background helpers. One window, two tabs.
 - Tick what you want to remove and press **Move to Trash**. Nothing is deleted permanently, so you can always put things back.
 - Apps made by Apple are shown but locked, because macOS protects them.
 - For apps that need an administrator password, MacClean asks Finder to do the move so macOS can prompt you.
+
+**Installers tab**
+- Finds the `.dmg`, `.pkg` and `.xip` files sitting in your Downloads and Desktop folders (up to three folders deep).
+- Flags each one whose app is already installed, for example `Slack-4.41.dmg` when Slack is in your Applications folder, and pre-selects those.
+- Move the selected installers to the Trash in one click.
 
 **Clean tab**
 - Measures each junk category and pre-selects the safe ones:
@@ -65,6 +78,7 @@ You can also open `Package.swift` in Xcode and press Run.
 ## How it works
 
 - Everything is plain Swift and SwiftUI, with no third-party dependencies.
+- Installers are matched to apps by name: the file name is split into words and compared with each installed app's name, so `Postman-osx-11.2.dmg` matches Postman but `search-results.dmg` does not match Arc.
 - Leftovers are matched by the app's bundle identifier (for example `com.vendor.app`, plus helpers like `com.vendor.app.helper`) and, as a fallback, by its exact name. Names shorter than three characters are ignored to avoid false matches.
 - Sizes are the allocated size on disk, and symbolic links are never followed.
 - Removal uses `FileManager.trashItem`, the same thing Finder does. Permanent deletion uses `removeItem`.
@@ -85,6 +99,7 @@ The app icon is drawn by `scripts/make_icon.py` (needs Pillow), which writes `Re
 Issues and pull requests are welcome. Good first contributions:
 
 - More junk categories (Homebrew downloads, Docker images, Mail attachments, old iOS backups).
+- Mounting a disk image to read the real app name inside it, instead of guessing from the file name.
 - Finding orphaned support files for apps that are already gone.
 - Localization.
 

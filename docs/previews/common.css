@@ -21,3 +21,21 @@ svg.ico { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-wi
 .check.on::after { content: ""; width: 4px; height: 7px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px,-1px); }
 .muted { color: #7a7a7e; } .faint { color: #a9a9ad; }
 .mono { font-variant-numeric: tabular-nums; }
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  body { background: #2b2b2e; color: #e8e8ea; }
+  .window { background: #1f1f21; box-shadow: 0 22px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.12); }
+  .titlebar { background: linear-gradient(#3b3b3d, #333335); border-bottom-color: #121214; }
+  .title { color: #d6d6d8; }
+  .tabs { background: #4a4a4d; }
+  .tabs span { color: #c8c8cc; }
+  .tabs span.on { background: #6b6b6f; color: #fff; }
+  .toolbtn { background: #4a4a4d; border-color: #5a5a5e; color: #d6d6d8; }
+  .btn { background: #5b5b5f; border-color: #6a6a6e; color: #f0f0f2; box-shadow: none; }
+  .btn.primary { background: #2f6ff2; border-color: #2a62d8; }
+  .btn.danger { background: #e5484d; border-color: #d13a40; }
+  .check { background: #4a4a4d; border-color: #6a6a6e; }
+  .check.on { background: #2f6ff2; border-color: #2a62d8; }
+  .muted { color: #9a9a9e; } .faint { color: #6e6e72; }
+}

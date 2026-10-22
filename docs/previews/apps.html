@@ -20,7 +20,7 @@ hr { border: 0; border-top: 1px solid #e3e3e6; }
 </style></head><body>
 <div class="window">
  <div class="titlebar"><div class="lights"><i></i><i></i><i></i></div><div class="title">MacClean</div>
-  <div class="tabs"><span class="on"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Apps</span><span><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Clean</span></div>
+  <div class="tabs"><span class="on"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Apps</span><span><svg class="ico" viewBox="0 0 24 24"><path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/></svg>Installers</span><span><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Clean</span></div>
   <div class="toolbtn"><svg class="ico" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg></div></div>
  <div class="body">
   <div class="sidebar">
@@ -57,3 +57,12 @@ hr { border: 0; border-top: 1px solid #e3e3e6; }
  </div>
 </div>
 </body></html>
+<style>
+@media (prefers-color-scheme: dark) {
+  .sidebar { background: #2a2a2c; border-right-color: #121214; }
+  .search { background: #3a3a3d; color: #8e8e92; }
+  hr { border-top-color: #3a3a3d; }
+  .list { border-color: #3a3a3d; }
+  .li:nth-child(even) { background: #27272a; }
+}
+</style>
