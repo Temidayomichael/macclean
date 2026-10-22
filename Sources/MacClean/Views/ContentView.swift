@@ -4,17 +4,35 @@ struct ContentView: View {
     @StateObject private var appsModel = AppsViewModel()
     @StateObject private var installersModel = InstallersViewModel()
     @StateObject private var cleanModel = CleanViewModel()
+    @EnvironmentObject private var updates: UpdateChecker
 
     var body: some View {
-        TabView {
-            AppsView(model: appsModel)
-                .tabItem { Label("Apps", systemImage: "square.grid.2x2") }
-            InstallersView(model: installersModel)
-                .tabItem { Label("Installers", systemImage: "shippingbox") }
-            CleanView(model: cleanModel)
-                .tabItem { Label("Clean", systemImage: "sparkles") }
+        VStack(spacing: 0) {
+            UpdateBanner()
+            TabView {
+                AppsView(model: appsModel)
+                    .tabItem { Label("Apps", systemImage: "square.grid.2x2") }
+                InstallersView(model: installersModel)
+                    .tabItem { Label("Installers", systemImage: "shippingbox") }
+                CleanView(model: cleanModel)
+                    .tabItem { Label("Clean", systemImage: "sparkles") }
+            }
         }
         .frame(minWidth: 880, minHeight: 560)
+        .task {
+            await updates.checkAutomaticallyIfDue()
+        }
+        .alert(
+            "Software Update",
+            isPresented: Binding(
+                get: { updates.manualResult != nil },
+                set: { if !$0 { updates.manualResult = nil } }
+            )
+        ) {
+            Button("OK") {}
+        } message: {
+            Text(updates.manualResult ?? "")
+        }
     }
 }
 

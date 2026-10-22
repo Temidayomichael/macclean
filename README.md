@@ -77,6 +77,10 @@ open build/MacClean.app
 
 For a quick run without building a bundle use `swift run`, or open `Package.swift` in Xcode and press Run.
 
+## Updates
+
+MacClean checks GitHub Releases for a newer version once a day when it starts, and shows a banner with a Download button when one exists. You can also pick **MacClean > Check for Updates…** at any time, or turn the automatic check off with **MacClean > Check for Updates Automatically**. The check is a single request to GitHub's public API and sends nothing about your Mac.
+
 ## How it works
 
 - Everything is plain Swift and SwiftUI, with no third-party dependencies.
