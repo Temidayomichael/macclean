@@ -64,6 +64,15 @@ curl -fsSL https://raw.githubusercontent.com/Temidayomichael/macclean/main/scrip
 
 This downloads the source, builds it on your Mac, puts `MacClean.app` in your Applications folder and opens it. Because the app is built locally it opens without any Gatekeeper warning. If the Command Line Tools are missing, run `xcode-select --install` first.
 
+**Homebrew**:
+
+```bash
+brew tap temidayomichael/macclean https://github.com/Temidayomichael/macclean
+brew install --cask macclean
+```
+
+The cask installs the `MacClean.zip` from the latest release. Because the build isn't notarized, add `--no-quarantine` to the install command to skip the right-click, Open step on first launch. Update later with `brew upgrade --cask macclean`.
+
 **Download a build**: `MacClean.zip` is attached to each [release](../../releases). Unzip it and drag `MacClean.app` to your Applications folder. Downloaded builds are not notarized, so the first time you open one, right-click (or Control-click) `MacClean.app`, choose **Open**, then confirm.
 
 **Build it yourself**:
@@ -84,6 +93,7 @@ MacClean checks GitHub Releases for a newer version once a day when it starts, a
 ## How it works
 
 - Everything is plain Swift and SwiftUI, with no third-party dependencies.
+- The Homebrew cask lives in `Casks/macclean.rb`. After each tagged release the workflow pins it to the new zip's version and checksum with `scripts/update_cask.sh`.
 - Installers are matched to apps by name: the file name is split into words and compared with each installed app's name, so `Postman-osx-11.2.dmg` matches Postman but `search-results.dmg` does not match Arc.
 - Leftovers are matched by the app's bundle identifier (for example `com.vendor.app`, plus helpers like `com.vendor.app.helper`) and, as a fallback, by its exact name. Names shorter than three characters are ignored to avoid false matches.
 - Sizes are the allocated size on disk, and symbolic links are never followed.
