@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Build (debug)
+        run: swift build
+
+      - name: Bundle MacClean.app
+        run: scripts/bundle.sh
+
+      - name: Zip app
+        run: ditto -c -k --keepParent build/MacClean.app build/MacClean.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MacClean
+          path: build/MacClean.zip
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/MacClean.zip
