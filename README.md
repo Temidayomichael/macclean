@@ -93,7 +93,7 @@ MacClean checks GitHub Releases for a newer version once a day when it starts, a
 ## How it works
 
 - Everything is plain Swift and SwiftUI, with no third-party dependencies.
-- The Homebrew cask lives in `Casks/macclean.rb`. After each tagged release the workflow pins it to the new zip's version and checksum with `scripts/update_cask.sh`.
+- The Homebrew cask lives in `Casks/macclean.rb`. `scripts/release.sh` pins it to each release zip's version and checksum.
 - Installers are matched to apps by name: the file name is split into words and compared with each installed app's name, so `Postman-osx-11.2.dmg` matches Postman but `search-results.dmg` does not match Arc.
 - Leftovers are matched by the app's bundle identifier (for example `com.vendor.app`, plus helpers like `com.vendor.app.helper`) and, as a fallback, by its exact name. Names shorter than three characters are ignored to avoid false matches.
 - Sizes are the allocated size on disk, and symbolic links are never followed.
@@ -109,6 +109,16 @@ The app icon is drawn by `scripts/make_icon.py` (needs Pillow), which writes `Re
 - Quit an app before uninstalling it, otherwise its running processes may recreate files.
 - Clearing caches means apps will be a little slower the first time you open them again.
 - Check the leftover list before confirming. Group containers can be shared by several apps from the same vendor.
+
+## Releasing (maintainers)
+
+Releases are cut from a Mac, with no GitHub Actions involved:
+
+```bash
+scripts/release.sh 0.2.0
+```
+
+The script sets the version in `Info.plist`, builds and zips the app, pins the Homebrew cask to the zip's checksum, commits, tags `v0.2.0`, pushes, and, when the [GitHub CLI](https://cli.github.com) is installed and logged in, creates the release and uploads `MacClean.zip`. Without the CLI it prints the three manual steps instead. Add the release notes to `CHANGELOG.md` first; the script uses that section as the release description.
 
 ## Contributing
 

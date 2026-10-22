@@ -1,10 +1,12 @@
 name: Build
 
+# Optional: releases are normally cut locally with scripts/release.sh, which
+# needs no GitHub Actions. This workflow is here for anyone who wants CI builds
+# and can be started by hand from the Actions tab.
 on:
+  workflow_dispatch:
   push:
-    branches: [main]
     tags: ["v*"]
-  pull_request:
 
 permissions:
   contents: write
