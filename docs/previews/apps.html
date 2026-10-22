@@ -1,0 +1,59 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+.sidebar { width: 300px; background: #f5f5f7; border-right: 1px solid #dedee1; display: flex; flex-direction: column; }
+.search { margin: 10px 12px 6px; height: 26px; border-radius: 6px; background: #e4e4e7; display: flex; align-items: center; padding: 0 8px; gap: 6px; color: #8a8a8e; font-size: 12px; }
+.row { display: flex; align-items: center; gap: 10px; padding: 5px 12px; margin: 0 6px; border-radius: 6px; }
+.row.sel { background: #2f6ff2; color: #fff; } .row.sel .muted, .row.sel .faint { color: rgba(255,255,255,.75); }
+.appicon { width: 32px; height: 32px; border-radius: 8px; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 15px; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.15); }
+.row .t { flex: 1; min-width: 0; } .row .t div:first-child { font-size: 13px; } .row .t div:last-child { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .sz { font-size: 11px; }
+.detail { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.head { display: flex; gap: 16px; align-items: flex-start; }
+.head .big { width: 64px; height: 64px; border-radius: 15px; font-size: 30px; }
+.head h1 { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+.head .r { margin-left: auto; text-align: right; } .head .r b { font-size: 16px; font-weight: 500; display: block; }
+hr { border: 0; border-top: 1px solid #e3e3e6; }
+.sec { display: flex; align-items: center; gap: 8px; } .sec h2 { font-size: 13px; font-weight: 600; } .sec a { color: #2f6ff2; font-size: 12px; margin-left: 10px; }
+.list { flex: 1; border: 1px solid #e3e3e6; border-radius: 6px; overflow: hidden; }
+.li { display: flex; align-items: center; gap: 10px; padding: 7px 10px; } .li:nth-child(even) { background: #f6f6f8; }
+.li .p { flex: 1; min-width: 0; } .li .p div:first-child { font-size: 12.5px; } .li .p div:last-child { font-size: 11px; }
+.foot { display: flex; align-items: center; gap: 8px; }
+</style></head><body>
+<div class="window">
+ <div class="titlebar"><div class="lights"><i></i><i></i><i></i></div><div class="title">MacClean</div>
+  <div class="tabs"><span class="on"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Apps</span><span><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Clean</span></div>
+  <div class="toolbtn"><svg class="ico" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v5h-5"/></svg></div></div>
+ <div class="body">
+  <div class="sidebar">
+   <div class="search"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search apps</div>
+   <div class="row"><div class="appicon" style="background:#1c1c1e">A</div><div class="t"><div>Alfred</div><div class="muted">com.runningwithcrayons.Alfred</div></div><div class="sz muted mono">12.4 MB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#3fa9f5,#2b6de9)">B</div><div class="t"><div>Bear</div><div class="muted">net.shinyfrog.bear</div></div><div class="sz muted mono">58.1 MB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#f26b4b,#d9442a)">D</div><div class="t"><div>Docker</div><div class="muted">com.docker.docker</div></div><div class="sz muted mono">1.21 GB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#ff8a5b,#f0533c)">F</div><div class="t"><div>Figma</div><div class="muted">com.figma.Desktop</div></div><div class="sz muted mono">412 MB</div></div>
+   <div class="row sel"><div class="appicon" style="background:linear-gradient(#2fd36a,#1ea84f)">O</div><div class="t"><div>OldPhotoEditor</div><div>com.example.oldphotoeditor</div></div><div class="sz mono">684 MB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#8a5cf6,#6a3fe0)">P</div><div class="t"><div>Postman</div><div class="muted">com.postmanlabs.mac</div></div><div class="sz muted mono">375 MB</div></div>
+   <div class="row"><div class="appicon" style="background:#000">S</div><div class="t"><div>Safari</div><div class="muted">com.apple.Safari</div></div><div class="sz muted mono">28.0 MB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#4a154b,#611f69)">S</div><div class="t"><div>Slack</div><div class="muted">com.tinyspeck.slackmacgap</div></div><div class="sz muted mono">298 MB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#1ed760,#169c46)">S</div><div class="t"><div>Spotify</div><div class="muted">com.spotify.client</div></div><div class="sz muted mono">341 MB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#2c8ee8,#1a66c8)">V</div><div class="t"><div>Visual Studio Code</div><div class="muted">com.microsoft.VSCode</div></div><div class="sz muted mono">571 MB</div></div>
+   <div class="row"><div class="appicon" style="background:linear-gradient(#2d8cff,#0b5ed7)">Z</div><div class="t"><div>zoom.us</div><div class="muted">us.zoom.xos</div></div><div class="sz muted mono">205 MB</div></div>
+  </div>
+  <div class="detail">
+   <div class="head"><div class="appicon big" style="background:linear-gradient(#2fd36a,#1ea84f)">O</div>
+    <div><h1>OldPhotoEditor</h1><div class="muted">Version 3.2.1</div><div class="muted" style="font-size:11px;margin-top:4px">com.example.oldphotoeditor</div><div class="faint" style="font-size:11px">/Applications/OldPhotoEditor.app</div></div>
+    <div class="r"><b class="mono">684 MB</b><span class="muted" style="font-size:11px">app size</span></div></div>
+   <hr>
+   <div class="sec"><h2>Related files</h2><span class="muted" style="font-size:11px">7</span><a style="margin-left:auto">Select all</a><a>Select none</a></div>
+   <div class="list">
+    <div class="li"><span class="check on"></span><div class="p"><div>~/Library/Application Support/OldPhotoEditor</div><div class="muted">Application Support</div></div><span class="muted mono">1.84 GB</span></div>
+    <div class="li"><span class="check on"></span><div class="p"><div>~/Library/Caches/com.example.oldphotoeditor</div><div class="muted">Caches</div></div><span class="muted mono">312 MB</span></div>
+    <div class="li"><span class="check on"></span><div class="p"><div>~/Library/Containers/com.example.oldphotoeditor</div><div class="muted">Containers</div></div><span class="muted mono">96.3 MB</span></div>
+    <div class="li"><span class="check on"></span><div class="p"><div>~/Library/Logs/OldPhotoEditor</div><div class="muted">Logs</div></div><span class="muted mono">4.1 MB</span></div>
+    <div class="li"><span class="check on"></span><div class="p"><div>~/Library/Preferences/com.example.oldphotoeditor.plist</div><div class="muted">Preferences</div></div><span class="muted mono">12 KB</span></div>
+    <div class="li"><span class="check on"></span><div class="p"><div>~/Library/Saved Application State/com.example.oldphotoeditor.savedState</div><div class="muted">Saved state</div></div><span class="muted mono">88 KB</span></div>
+    <div class="li"><span class="check"></span><div class="p"><div>~/Library/Group Containers/ABC123.com.example.oldphotoeditor</div><div class="muted">Group containers</div></div><span class="muted mono">21.7 MB</span></div>
+   </div>
+   <div class="foot"><span class="muted">Will free about 2.92 GB</span><span style="margin-left:auto"></span><span class="btn">Show in Finder</span><span class="btn danger"><span class="l"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>Move to Trash</span></span></div>
+  </div>
+ </div>
+</div>
+</body></html>

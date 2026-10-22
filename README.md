@@ -6,6 +6,22 @@ Most apps leave caches, preferences, logs and support files behind when you drag
 
 No ads, no subscriptions, no background helpers. One window, two tabs.
 
+<p align="center">
+  <img src="Resources/AppIcon.png" width="128" alt="MacClean icon">
+</p>
+
+## Screenshots
+
+**Apps tab**: pick an app, review what it left behind, move it all to the Trash.
+
+![Apps tab](docs/screenshot-apps.png)
+
+**Clean tab**: measure the junk, tick what to clear, clean.
+
+![Clean tab](docs/screenshot-clean.png)
+
+*These are rendered previews of the interface (see `docs/previews`), not captures from a running Mac. Real screenshots are welcome in a pull request.*
+
 ## Features
 
 **Apps tab**
@@ -53,6 +69,8 @@ You can also open `Package.swift` in Xcode and press Run.
 - Sizes are the allocated size on disk, and symbolic links are never followed.
 - Removal uses `FileManager.trashItem`, the same thing Finder does. Permanent deletion uses `removeItem`.
 - Nothing runs as root. If a file can't be removed, MacClean tells you which one and why.
+
+The README previews are rendered from the HTML in `docs/previews` with `node docs/previews/render.js docs` (needs Playwright). To replace them with real screenshots, run the app, press Cmd-Shift-4 then Space, click the window, and save the files over `docs/screenshot-apps.png` and `docs/screenshot-clean.png`.
 
 The app icon is drawn by `scripts/make_icon.py` (needs Pillow), which writes `Resources/AppIcon.png` and `Resources/AppIcon.icns`.
 

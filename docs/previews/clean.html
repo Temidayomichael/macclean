@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+.main { flex: 1; display: flex; flex-direction: column; }
+.list { flex: 1; min-height: 0; overflow: hidden; }
+.li { display: flex; align-items: flex-start; gap: 12px; padding: 8px 18px; } .li:nth-child(even) { background: #f6f6f8; }
+.li .check { margin-top: 3px; }
+.li .p { flex: 1; } .li .p .n { font-size: 13px; display: flex; gap: 6px; align-items: center; } .li .p div { margin-top: 2px; font-size: 11px; }
+.tag { font-size: 10px; background: rgba(229,72,77,.15); color: #b3262b; padding: 1px 6px; border-radius: 9px; }
+.li .r { text-align: right; } .li .r b { display: block; font-weight: 400; font-size: 13px; } .li .r span { font-size: 11px; }
+.li.off { opacity: .55; }
+.foot { border-top: 1px solid #e3e3e6; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
+.foot .row { display: flex; align-items: center; gap: 10px; }
+</style></head><body>
+<div class="window">
+ <div class="titlebar"><div class="lights"><i></i><i></i><i></i></div><div class="title">MacClean</div>
+  <div class="tabs"><span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Apps</span><span class="on"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Clean</span></div>
+  <div class="toolbtn"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div></div>
+ <div class="body"><div class="main">
+  <div class="list">
+   <div class="li"><span class="check on"></span><div class="p"><div class="n">User caches</div><div class="muted">Caches apps keep in your Library folder. Apps rebuild them when needed.</div><div class="faint">~/Library/Caches</div></div><div class="r"><b class="mono">4.73 GB</b><span class="muted">182 items</span></div></div>
+   <div class="li"><span class="check on"></span><div class="p"><div class="n">Log files</div><div class="muted">Application logs and crash reports.</div><div class="faint">~/Library/Logs</div></div><div class="r"><b class="mono">236 MB</b><span class="muted">41 items</span></div></div>
+   <div class="li"><span class="check on"></span><div class="p"><div class="n">Xcode DerivedData</div><div class="muted">Build products and indexes. Xcode regenerates them on the next build.</div><div class="faint">~/Library/Developer/Xcode/DerivedData</div></div><div class="r"><b class="mono">11.2 GB</b><span class="muted">9 items</span></div></div>
+   <div class="li"><span class="check on"></span><div class="p"><div class="n">iOS device support</div><div class="muted">Debug symbols Xcode downloaded for connected devices. Re-downloaded when a device is plugged in.</div><div class="faint">~/Library/Developer/Xcode/iOS DeviceSupport</div></div><div class="r"><b class="mono">6.48 GB</b><span class="muted">3 items</span></div></div>
+   <div class="li off"><span class="check"></span><div class="p"><div class="n">Simulator caches</div><div class="muted">Caches for the iOS Simulator.</div><div class="faint">~/Library/Developer/CoreSimulator/Caches</div></div><div class="r"><b class="mono">Zero KB</b><span class="muted">0 items</span></div></div>
+   <div class="li"><span class="check on"></span><div class="p"><div class="n">npm cache</div><div class="muted">Packages npm downloaded. They are fetched again on the next install.</div><div class="faint">~/.npm/_cacache</div></div><div class="r"><b class="mono">1.91 GB</b><span class="muted">3 items</span></div></div>
+   <div class="li"><span class="check on"></span><div class="p"><div class="n">Gradle caches</div><div class="muted">Dependencies and build caches used by Gradle and Android Studio.</div><div class="faint">~/.gradle/caches</div></div><div class="r"><b class="mono">2.37 GB</b><span class="muted">14 items</span></div></div>
+   <div class="li"><span class="check"></span><div class="p"><div class="n">Trash <span class="tag">permanent</span></div><div class="muted">Empties your Trash. This cannot be undone.</div><div class="faint">~/.Trash</div></div><div class="r"><b class="mono">3.06 GB</b><span class="muted">27 items</span></div></div>
+  </div>
+  <div class="foot"><div class="row"><span class="check"></span><span>Delete permanently instead of moving to the Trash</span><span style="margin-left:auto" class="muted mono">Selected: 26.9 GB</span><span class="btn primary"><span class="l"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Clean selected</span></span></div></div>
+ </div></div>
+</div>
+</body></html>
