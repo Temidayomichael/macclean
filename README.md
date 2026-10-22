@@ -54,6 +54,8 @@ You can also open `Package.swift` in Xcode and press Run.
 - Removal uses `FileManager.trashItem`, the same thing Finder does. Permanent deletion uses `removeItem`.
 - Nothing runs as root. If a file can't be removed, MacClean tells you which one and why.
 
+The app icon is drawn by `scripts/make_icon.py` (needs Pillow), which writes `Resources/AppIcon.png` and `Resources/AppIcon.icns`.
+
 ## Safety notes
 
 - Quit an app before uninstalling it, otherwise its running processes may recreate files.
@@ -65,7 +67,6 @@ You can also open `Package.swift` in Xcode and press Run.
 Issues and pull requests are welcome. Good first contributions:
 
 - More junk categories (Homebrew downloads, Docker images, Mail attachments, old iOS backups).
-- An app icon.
 - Finding orphaned support files for apps that are already gone.
 - Localization.
 
