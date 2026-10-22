@@ -56,11 +56,17 @@ No ads, no subscriptions, no background helpers. One window, two tabs.
 
 MacClean needs macOS 13 Ventura or newer.
 
-**Download**: grab `MacClean.zip` from the [Releases](../../releases) page (or from the latest run on the Actions tab), unzip it and drag `MacClean.app` to your Applications folder.
+**One line** (builds from source, needs the Xcode Command Line Tools):
 
-The app is not notarized, so the first time you open it right-click (or Control-click) `MacClean.app` and choose **Open**, then confirm.
+```bash
+curl -fsSL https://raw.githubusercontent.com/Temidayomichael/macclean/main/scripts/install.sh | bash
+```
 
-**Build from source** (needs Xcode or the Command Line Tools):
+This downloads the source, builds it on your Mac, puts `MacClean.app` in your Applications folder and opens it. Because the app is built locally it opens without any Gatekeeper warning. If the Command Line Tools are missing, run `xcode-select --install` first.
+
+**Download a build**: `MacClean.zip` is attached to each [release](../../releases). Unzip it and drag `MacClean.app` to your Applications folder. Downloaded builds are not notarized, so the first time you open one, right-click (or Control-click) `MacClean.app`, choose **Open**, then confirm.
+
+**Build it yourself**:
 
 ```bash
 git clone https://github.com/Temidayomichael/macclean.git
@@ -69,13 +75,7 @@ scripts/bundle.sh          # creates build/MacClean.app
 open build/MacClean.app
 ```
 
-For a quick run without building a bundle:
-
-```bash
-swift run
-```
-
-You can also open `Package.swift` in Xcode and press Run.
+For a quick run without building a bundle use `swift run`, or open `Package.swift` in Xcode and press Run.
 
 ## How it works
 
