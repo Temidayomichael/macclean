@@ -6,7 +6,7 @@ const path = require('path');
   const page = await browser.newPage({ viewport: { width: 1040, height: 700 }, deviceScaleFactor: 2 });
   const jobs = [
     ['apps', 'light'], ['installers', 'light'], ['clean', 'light'],
-    ['apps', 'dark'],
+    ['apps', 'dark'], ['installers', 'dark'],
   ];
   for (const [name, scheme] of jobs) {
     await page.emulateMedia({ colorScheme: scheme });

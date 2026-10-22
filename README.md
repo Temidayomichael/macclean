@@ -28,6 +28,8 @@ No ads, no subscriptions, no background helpers. One window, two tabs.
 
 ![Apps tab in dark mode](docs/screenshot-apps-dark.png)
 
+![Installers tab in dark mode](docs/screenshot-installers-dark.png)
+
 *These are rendered previews of the interface (see `docs/previews`), not captures from a running Mac. Real screenshots are welcome in a pull request.*
 
 ## Features
