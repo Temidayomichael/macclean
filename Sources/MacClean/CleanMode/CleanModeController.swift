@@ -8,6 +8,8 @@ import SwiftUI
 final class CleanModeController: ObservableObject {
     static let durationKey = "cleanModeDuration"
     static let menuBarKey = "showInMenuBar"
+    /// Remembered once access has been seen, so the app can explain why it is gone after an update.
+    private static let hadAccessibilityKey = "hadAccessibilityAccess"
     static let defaultDuration = 120
     static let durations: [(seconds: Int, label: String)] = [
         (30, "30 seconds"),
@@ -25,6 +27,11 @@ final class CleanModeController: ObservableObject {
     /// 0 to 1 while Escape is held down.
     @Published private(set) var escapeProgress: Double = 0
     @Published private(set) var hasAccessibility = InputBlocker.isTrusted(prompt: false)
+    /// True when access was granted before but is gone now, which happens
+    /// after an update because each ad-hoc signed build looks like a new app.
+    var lostAccessibility: Bool {
+        !hasAccessibility && UserDefaults.standard.bool(forKey: Self.hadAccessibilityKey)
+    }
     /// True while Clean Mode runs without Accessibility access: typing and
     /// clicking are blocked, but system shortcuts and media keys are not.
     @Published private(set) var isPartial = false
@@ -61,6 +68,9 @@ final class CleanModeController: ObservableObject {
     /// Re-reads whether macOS trusts the app; there is no notification for it.
     func refreshAccessibility() {
         hasAccessibility = InputBlocker.isTrusted(prompt: false)
+        if hasAccessibility {
+            UserDefaults.standard.set(true, forKey: Self.hadAccessibilityKey)
+        }
     }
 
     /// Shows the system dialog that offers to open the Accessibility settings.

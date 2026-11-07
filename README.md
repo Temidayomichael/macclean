@@ -110,7 +110,14 @@ For a quick run without building a bundle use `swift run`, or open `Package.swif
 
 ## Updates
 
-MacClean checks GitHub Releases for a newer version once a day when it starts, and shows a banner with a Download button when one exists. You can also pick **MacClean > Check for Updates…** at any time, or turn the automatic check off with **MacClean > Check for Updates Automatically**. The check is a single request to GitHub's public API and sends nothing about your Mac.
+MacClean checks GitHub Releases for a newer version once a day when it starts, and shows a banner when one exists. You can also pick **MacClean > Check for Updates…** at any time, or turn the automatic check off with **MacClean > Check for Updates Automatically**. The check is a single request to GitHub's public API and sends nothing about your Mac.
+
+**Install Update** in the banner does the rest for you: it downloads the release's `MacClean.zip`, checks that it really is a newer MacClean, moves the copy you are running to the Trash, puts the new one in its place and reopens it. If the app lives somewhere macOS protects, Finder asks for your administrator password. Files the app downloads itself carry no quarantine flag, so the update opens straight away. Prefer to do it by hand? **Download** still fetches the zip in your browser.
+
+Two things to know:
+
+- Each build is signed ad hoc, so macOS sees an update as a new app and forgets the Accessibility grant Clean Mode uses. The Keyboard tab tells you when that has happened; remove MacClean from the Accessibility list and add it again.
+- If you installed with Homebrew, the in-app update replaces the app behind Homebrew's back. That is harmless: `brew upgrade --cask macclean` later installs the same version over it.
 
 ## How it works
 
@@ -122,6 +129,7 @@ MacClean checks GitHub Releases for a newer version once a day when it starts, a
 - Leftovers are matched by the app's bundle identifier (for example `com.vendor.app`, plus helpers like `com.vendor.app.helper`) and, as a fallback, by its exact name. Names shorter than three characters are ignored to avoid false matches.
 - Sizes are the allocated size on disk, and symbolic links are never followed.
 - Removal uses `FileManager.trashItem`, the same thing Finder does. Permanent deletion uses `removeItem`.
+- The update installer unpacks the zip with `ditto`, refuses anything whose bundle identifier or version doesn't match, and if the swap fails it puts the old copy back before reporting the error.
 - Nothing runs as root. If a file can't be removed, MacClean tells you which one and why.
 
 The README previews are rendered from the HTML in `docs/previews` with `node docs/previews/render.js docs` (needs Playwright; add preview names such as `keyboard` to render only those). To replace them with real screenshots, run the app, press Cmd-Shift-4 then Space, click the window, and save the files over `docs/screenshot-apps.png` and `docs/screenshot-clean.png`.

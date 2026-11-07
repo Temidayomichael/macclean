@@ -55,9 +55,7 @@ struct KeyboardView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(cleanMode.hasAccessibility ? "Accessibility access granted" : "Accessibility access needed")
                             .font(.headline)
-                        Text(cleanMode.hasAccessibility
-                             ? "MacClean can block every key, including system shortcuts like ⌘ Tab and ⌘ Space, the volume and brightness keys and the Globe key."
-                             : "Without it, Clean Mode only blocks typing and clicks. System shortcuts, the volume and brightness keys and the Globe key still work. Allow MacClean under Privacy & Security > Accessibility.")
+                        Text(accessibilityDetail)
                             .font(.callout)
                             .foregroundStyle(.secondary)
                             .fixedSize(horizontal: false, vertical: true)
@@ -117,6 +115,16 @@ struct KeyboardView: View {
         } message: {
             Text("MacClean has no Accessibility access, so system shortcuts and the volume and brightness keys would still work while you wipe the keyboard. Typing and clicking are blocked either way.")
         }
+    }
+
+    private var accessibilityDetail: String {
+        if cleanMode.hasAccessibility {
+            return "MacClean can block every key, including system shortcuts like ⌘ Tab and ⌘ Space, the volume and brightness keys and the Globe key."
+        }
+        if cleanMode.lostAccessibility {
+            return "MacClean had access before. Updating changes the app's signature, so macOS forgot the grant: remove MacClean from Privacy & Security > Accessibility and add it again."
+        }
+        return "Without it, Clean Mode only blocks typing and clicks. System shortcuts, the volume and brightness keys and the Globe key still work. Allow MacClean under Privacy & Security > Accessibility."
     }
 
     private func startOrAsk() {

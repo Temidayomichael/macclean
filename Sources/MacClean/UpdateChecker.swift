@@ -31,10 +31,17 @@ final class UpdateChecker: ObservableObject {
 
     @Published var available: UpdateInfo?
     @Published var isChecking = false
-    /// Outcome of a manual check, shown in an alert.
+    /// Outcome of a manual check, or an install failure, shown in an alert.
     @Published var manualResult: String?
+    /// 0 to 1 while an update downloads, 1 while it installs, nil otherwise.
+    @Published private(set) var installProgress: Double?
+    /// What the installer is doing, shown in the banner.
+    @Published private(set) var installStage: String?
 
     var currentVersion: String { AppInfo.version }
+    var isInstalling: Bool { installProgress != nil }
+    /// False when run with `swift run`, where there is no bundle to replace.
+    var canInstall: Bool { UpdateInstaller.canInstall }
 
     /// Called at launch: checks at most once a day, and only if the
     /// "Check for Updates Automatically" menu item is on.
@@ -67,6 +74,30 @@ final class UpdateChecker: ObservableObject {
             if manual {
                 manualResult = "Could not check for updates. \(error.localizedDescription)"
             }
+        }
+    }
+
+    /// Downloads the release zip, swaps it in for this copy and relaunches.
+    func install(_ info: UpdateInfo) async {
+        guard let zipURL = info.downloadURL, !isInstalling else { return }
+        installProgress = 0
+        installStage = "Downloading MacClean \(info.version)…"
+        defer {
+            installProgress = nil
+            installStage = nil
+        }
+        do {
+            let zip = try await UpdateInstaller.download(from: zipURL) { [weak self] fraction in
+                self?.installProgress = fraction
+            }
+            installStage = "Installing…"
+            let unpacked = try await UpdateInstaller.unzip(zip)
+            try UpdateInstaller.validate(unpacked)
+            let installed = try UpdateInstaller.swapIn(unpacked)
+            try? FileManager.default.removeItem(at: zip.deletingLastPathComponent())
+            UpdateInstaller.relaunch(installed)
+        } catch {
+            manualResult = "Could not install the update. \(error.localizedDescription) You can still download it from the release page."
         }
     }
 
