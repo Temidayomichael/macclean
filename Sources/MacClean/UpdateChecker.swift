@@ -95,7 +95,10 @@ final class UpdateChecker: ObservableObject {
             try UpdateInstaller.validate(unpacked)
             let installed = try UpdateInstaller.swapIn(unpacked)
             try? FileManager.default.removeItem(at: zip.deletingLastPathComponent())
-            UpdateInstaller.relaunch(installed)
+            if !UpdateInstaller.relaunch(installed) {
+                available = nil
+                manualResult = "MacClean \(info.version) is installed. Quit MacClean and open it again to use it."
+            }
         } catch {
             manualResult = "Could not install the update. \(error.localizedDescription) You can still download it from the release page."
         }

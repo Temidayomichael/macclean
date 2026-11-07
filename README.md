@@ -112,7 +112,7 @@ For a quick run without building a bundle use `swift run`, or open `Package.swif
 
 MacClean checks GitHub Releases for a newer version once a day when it starts, and shows a banner when one exists. You can also pick **MacClean > Check for Updates…** at any time, or turn the automatic check off with **MacClean > Check for Updates Automatically**. The check is a single request to GitHub's public API and sends nothing about your Mac.
 
-**Install Update** in the banner does the rest for you: it downloads the release's `MacClean.zip`, checks that it really is a newer MacClean, moves the copy you are running to the Trash, puts the new one in its place and reopens it. If the app lives somewhere macOS protects, Finder asks for your administrator password. Files the app downloads itself carry no quarantine flag, so the update opens straight away. Prefer to do it by hand? **Download** still fetches the zip in your browser.
+**Install Update** in the banner does the rest for you: it downloads the release's `MacClean.zip`, checks that it really is a newer MacClean, moves the copy you are running to the Trash, puts the new one in its place and reopens it. If macOS won't let it move the old copy (that happens when the app is owned by the system), it asks for your administrator password and does the swap with a two-line shell script instead, deleting the old copy rather than trashing it. Files the app downloads itself carry no quarantine flag, so the update opens straight away. Prefer to do it by hand? **Download** still fetches the zip in your browser.
 
 Two things to know:
 
@@ -130,7 +130,7 @@ Two things to know:
 - Sizes are the allocated size on disk, and symbolic links are never followed.
 - Removal uses `FileManager.trashItem`, the same thing Finder does. Permanent deletion uses `removeItem`.
 - The update installer unpacks the zip with `ditto`, refuses anything whose bundle identifier or version doesn't match, and if the swap fails it puts the old copy back before reporting the error.
-- Nothing runs as root. If a file can't be removed, MacClean tells you which one and why.
+- Nothing runs as root, with one exception: the update installer's swap, and only when macOS refuses to let your user account move the old app, after it has asked for your password.
 
 The README previews are rendered from the HTML in `docs/previews` with `node docs/previews/render.js docs` (needs Playwright; add preview names such as `keyboard` to render only those). To replace them with real screenshots, run the app, press Cmd-Shift-4 then Space, click the window, and save the files over `docs/screenshot-apps.png` and `docs/screenshot-clean.png`.
 

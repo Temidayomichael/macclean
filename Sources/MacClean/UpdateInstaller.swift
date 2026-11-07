@@ -49,6 +49,10 @@ enum UpdateInstaller {
             throw UpdateInstallError.badResponse(status)
         }
         let expected = response.expectedContentLength
+        if expected <= 0 {
+            // No Content-Length: show the spinner rather than an empty bar.
+            await progress(1)
+        }
 
         let folder = FileManager.default.temporaryDirectory
             .appendingPathComponent("MacClean-update-\(UUID().uuidString)", isDirectory: true)
@@ -96,6 +100,8 @@ enum UpdateInstaller {
         let errors = Pipe()
         process.standardOutput = FileHandle.nullDevice
         process.standardError = errors
+        // Drain stderr while ditto runs, so a long error can't fill the pipe and stall it.
+        let errorOutput = Task.detached { errors.fileHandleForReading.readDataToEndOfFile() }
 
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             process.terminationHandler = { _ in continuation.resume() }
@@ -105,8 +111,8 @@ enum UpdateInstaller {
                 continuation.resume(throwing: error)
             }
         }
+        let data = await errorOutput.value
         guard process.terminationStatus == 0 else {
-            let data = errors.fileHandleForReading.readDataToEndOfFile()
             let message = String(decoding: data, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
             throw UpdateInstallError.unzipFailed(message)
         }
@@ -131,62 +137,86 @@ enum UpdateInstaller {
     }
 
     /// Moves the running copy to the Trash and puts the new one at its path.
-    /// If macOS refuses (the app is owned by the system), Finder is asked to
-    /// do both moves so it can prompt for an administrator password.
+    /// If macOS refuses to move the old copy (it is owned by the system), the
+    /// swap is done by a short shell script run with an administrator password
+    /// instead; in that case the old copy is deleted rather than trashed.
+    /// Whatever fails, the old copy is put back before the error is reported.
     @MainActor
     static func swapIn(_ newApp: URL) throws -> URL {
         let destination = Bundle.main.bundleURL
         let fm = FileManager.default
+
+        // Keep whatever the installed copy is called, even if it was renamed.
+        var source = newApp
+        if newApp.lastPathComponent != destination.lastPathComponent {
+            let renamed = newApp.deletingLastPathComponent().appendingPathComponent(destination.lastPathComponent)
+            try fm.moveItem(at: newApp, to: renamed)
+            source = renamed
+        }
+
+        var trashed: NSURL?
         do {
-            var trashed: NSURL?
             try fm.trashItem(at: destination, resultingItemURL: &trashed)
-            do {
-                try fm.moveItem(at: newApp, to: destination)
-            } catch {
-                // Put the old copy back so the user is never left without an app.
-                if let trashed {
-                    try? fm.moveItem(at: trashed as URL, to: destination)
-                }
-                throw error
-            }
         } catch {
-            if let message = swapWithFinder(old: destination, new: newApp) {
+            if let message = swapAsAdministrator(old: destination, new: source) {
                 throw UpdateInstallError.swapFailed(message)
             }
+            return destination
+        }
+        do {
+            try fm.moveItem(at: source, to: destination)
+        } catch {
+            if let trashed {
+                try? fm.moveItem(at: trashed as URL, to: destination)
+            }
+            throw UpdateInstallError.swapFailed(error.localizedDescription)
         }
         return destination
     }
 
-    /// Quits and opens the new copy a moment later.
+    /// Quits and opens the new copy a moment later. Returns false, leaving the
+    /// app running, if the helper that reopens it could not be started.
     @MainActor
-    static func relaunch(_ app: URL) {
+    static func relaunch(_ app: URL) -> Bool {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/bin/sh")
         process.arguments = ["-c", "sleep 1; /usr/bin/open -n \"$0\"", app.path]
-        try? process.run()
+        do {
+            try process.run()
+        } catch {
+            return false
+        }
         NSApp.terminate(nil)
+        return true
     }
 
-    private static func swapWithFinder(old: URL, new: URL) -> String? {
-        func quoted(_ url: URL) -> String {
-            let escaped = url.path
-                .replacingOccurrences(of: "\\", with: "\\\\")
-                .replacingOccurrences(of: "\"", with: "\\\"")
-            return "(POSIX file \"\(escaped)\" as alias)"
+    /// Swaps the bundles as root after macOS asks for an administrator
+    /// password. Finder can't be used here: it refuses to trash an app that
+    /// is running, and this one is. Plain `mv` has no such rule. Returns an
+    /// error message, or nil on success.
+    private static func swapAsAdministrator(old: URL, new: URL) -> String? {
+        func shellQuoted(_ path: String) -> String {
+            "'" + path.replacingOccurrences(of: "'", with: "'\\''") + "'"
         }
-        let source = """
-        tell application "Finder"
-            delete \(quoted(old))
-            move \(quoted(new)) to \(quoted(old.deletingLastPathComponent()))
-        end tell
+        let shell = """
+        old=\(shellQuoted(old.path)); new=\(shellQuoted(new.path)); backup="$old.previous"
+        rm -rf "$backup" && mv "$old" "$backup" || exit 1
+        if mv "$new" "$old"; then rm -rf "$backup"; else mv "$backup" "$old"; exit 1; fi
         """
+        // One line, so the AppleScript string literal never spans lines.
+        let appleScriptLiteral = shell
+            .split(separator: "\n")
+            .joined(separator: "; ")
+            .replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+        let source = "do shell script \"\(appleScriptLiteral)\" with administrator privileges"
         guard let script = NSAppleScript(source: source) else {
-            return "Could not build the Finder script."
+            return "Could not build the install script."
         }
         var errorInfo: NSDictionary?
         script.executeAndReturnError(&errorInfo)
         if let errorInfo {
-            return (errorInfo[NSAppleScript.errorMessage] as? String) ?? "Finder could not move the app."
+            return (errorInfo[NSAppleScript.errorMessage] as? String) ?? "The administrator step was cancelled."
         }
         return nil
     }
