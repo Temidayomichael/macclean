@@ -1,0 +1,68 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+.main { flex: 1; background: #f2f2f5; padding: 20px 60px; overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
+.group { background: #fff; border: 1px solid #e0e0e3; border-radius: 9px; padding: 14px 16px; }
+.group h3 { font-size: 11px; font-weight: 600; color: #7a7a7e; text-transform: none; margin: 0 0 6px 2px; }
+.hero { display: flex; gap: 16px; align-items: flex-start; }
+.hero .kb { color: #2f6ff2; width: 44px; height: 44px; flex: none; }
+.hero h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.controls { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.pop { display: inline-flex; align-items: center; gap: 10px; }
+.pop .sel { border: 1px solid #cfcfd2; border-radius: 6px; padding: 3px 6px 3px 10px; background: #fff; display: inline-flex; gap: 10px; align-items: center; box-shadow: 0 1px 1px rgba(0,0,0,.06); }
+.pop .sel .arr { width: 14px; height: 14px; border-radius: 4px; background: #2f6ff2; color: #fff; display: flex; align-items: center; justify-content: center; }
+.pop .sel .arr svg { width: 9px; height: 9px; stroke: #fff; stroke-width: 2.4; fill: none; }
+.note { margin-top: 12px; font-size: 12px; }
+.perm { display: flex; gap: 12px; align-items: flex-start; }
+.perm .ok { width: 20px; height: 20px; border-radius: 50%; background: #34c759; flex: none; display: flex; align-items: center; justify-content: center; }
+.perm .ok::after { content: ""; width: 5px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px,-1px); }
+.perm b { font-weight: 600; display: block; margin-bottom: 3px; }
+.perm div { font-size: 12px; }
+.switch { width: 38px; height: 22px; border-radius: 11px; background: #2f6ff2; position: relative; flex: none; margin-left: auto; }
+.switch::after { content: ""; position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
+.tog { display: flex; align-items: flex-start; gap: 12px; }
+.tog > div { flex: 1; font-size: 12px; }
+ul { list-style: none; font-size: 12px; display: flex; flex-direction: column; gap: 5px; }
+ul li { display: flex; gap: 8px; } ul li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #9a9a9e; margin-top: 6px; flex: none; }
+</style></head><body>
+<div class="window">
+ <div class="titlebar"><div class="lights"><i></i><i></i><i></i></div><div class="title">MacClean</div>
+  <div class="tabs"><span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Apps</span><span><svg class="ico" viewBox="0 0 24 24"><path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/></svg>Installers</span><span><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>Clean</span><span class="on"><svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>Keyboard</span></div>
+ </div>
+ <div class="body"><div class="main">
+  <div class="group">
+   <div class="hero">
+    <svg class="kb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M9 14h6"/></svg>
+    <div>
+     <h1>Clean Mode</h1>
+     <div class="muted">Locks the keyboard and trackpad so you can wipe your Mac without typing, clicking or triggering shortcuts. Every screen shows a countdown while it is on.</div>
+     <div class="controls">
+      <div class="pop"><span>Lock for</span><span class="sel">2 minutes <span class="arr"><svg viewBox="0 0 10 10"><path d="M2 3.5l3 3 3-3"/></svg></span></span></div>
+      <span style="margin-left:auto" class="btn primary"><span class="l"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Start Clean Mode</span></span>
+     </div>
+     <div class="note muted">It unlocks on its own when the time is up. To unlock sooner, hold the Escape key for 3 seconds.</div>
+    </div>
+   </div>
+  </div>
+  <div class="group"><h3>Permissions</h3>
+   <div class="perm"><span class="ok"></span><div><b>Accessibility access granted</b><div class="muted">MacClean can block every key, including system shortcuts like ⌘ Tab and ⌘ Space, the volume and brightness keys and the Globe key.</div></div></div>
+  </div>
+  <div class="group"><h3>Menu bar</h3>
+   <div class="tog"><div><span style="font-size:13px">Show MacClean in the menu bar</span><div class="muted" style="margin-top:3px">Start Clean Mode from the keyboard icon in the menu bar. While the icon is shown, MacClean keeps running after you close this window.</div></div><span class="switch"></span></div>
+  </div>
+  <div class="group"><h3>Tips</h3>
+   <ul>
+    <li>Switch the Mac off or use Clean Mode; never spray liquid on it. Use a soft, lint-free cloth, barely damp with water.</li>
+    <li>The power button (Touch ID) is handled by macOS before MacClean sees it, so avoid pressing it.</li>
+    <li>Clean Mode blocks input from every keyboard, trackpad and mouse, including Bluetooth ones.</li>
+   </ul>
+  </div>
+ </div></div>
+</div>
+</body></html>
+<style>
+@media (prefers-color-scheme: dark) {
+  .main { background: #1f1f21; }
+  .group { background: #2a2a2d; border-color: #3a3a3d; }
+  .pop .sel { background: #5b5b5f; border-color: #6a6a6e; box-shadow: none; }
+  ul li::before { background: #7a7a7e; }
+}
+</style>

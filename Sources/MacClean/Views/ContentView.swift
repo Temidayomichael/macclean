@@ -1,26 +1,44 @@
 import SwiftUI
 
+enum MainTab: Hashable {
+    case apps, installers, clean, keyboard
+}
+
 struct ContentView: View {
     @StateObject private var appsModel = AppsViewModel()
     @StateObject private var installersModel = InstallersViewModel()
     @StateObject private var cleanModel = CleanViewModel()
     @EnvironmentObject private var updates: UpdateChecker
+    @EnvironmentObject private var cleanMode: CleanModeController
+    @State private var selectedTab: MainTab = .apps
 
     var body: some View {
         VStack(spacing: 0) {
             UpdateBanner()
-            TabView {
+            TabView(selection: $selectedTab) {
                 AppsView(model: appsModel)
                     .tabItem { Label("Apps", systemImage: "square.grid.2x2") }
+                    .tag(MainTab.apps)
                 InstallersView(model: installersModel)
                     .tabItem { Label("Installers", systemImage: "shippingbox") }
+                    .tag(MainTab.installers)
                 CleanView(model: cleanModel)
                     .tabItem { Label("Clean", systemImage: "sparkles") }
+                    .tag(MainTab.clean)
+                KeyboardView()
+                    .tabItem { Label("Keyboard", systemImage: "keyboard") }
+                    .tag(MainTab.keyboard)
             }
         }
         .frame(minWidth: 880, minHeight: 560)
         .task {
             await updates.checkAutomaticallyIfDue()
+        }
+        .onAppear {
+            showKeyboardTabIfRequested()
+        }
+        .onChange(of: cleanMode.setupRequested) { _ in
+            showKeyboardTabIfRequested()
         }
         .alert(
             "Software Update",
@@ -33,6 +51,13 @@ struct ContentView: View {
         } message: {
             Text(updates.manualResult ?? "")
         }
+    }
+
+    /// The menu bar sends the user here when Clean Mode needs Accessibility access.
+    private func showKeyboardTabIfRequested() {
+        guard cleanMode.setupRequested else { return }
+        selectedTab = .keyboard
+        cleanMode.setupRequested = false
     }
 }
 

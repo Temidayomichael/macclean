@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+- **Clean Mode**: locks the keyboard, trackpad and mouse so you can wipe your Mac without typing, clicking or triggering shortcuts. Pick 30 seconds to 10 minutes; a countdown shows on every screen, and holding Escape for 3 seconds unlocks early. Needs Accessibility access for a full lock; without it, typing and clicks are still blocked.
+- New **Keyboard** tab with the Clean Mode controls, permission status and tips, plus a **Clean Mode** menu with ⇧⌘L.
+- Optional **menu bar icon** to start Clean Mode without opening the window. While it is shown, MacClean keeps running after the window is closed.
+
 ## 0.1.0
 
 First release of MacClean, an open-source app uninstaller and cleaner for macOS 13 and newer.

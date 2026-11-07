@@ -4,7 +4,9 @@ A small, open-source macOS app that uninstalls apps properly and clears out junk
 
 Most apps leave caches, preferences, logs and support files behind when you drag them to the Trash. MacClean finds those leftovers and removes them together with the app, and it also clears the usual space hogs: caches, logs, Xcode build data, package manager caches and the Trash.
 
-No ads, no subscriptions, no background helpers. One window, two tabs.
+It also has a Clean Mode that locks the keyboard and trackpad so you can wipe the Mac down without typing, clicking or triggering shortcuts.
+
+No ads, no subscriptions, no background helpers. One window, four tabs, and an optional menu bar icon.
 
 <p align="center">
   <img src="Resources/AppIcon.png" width="128" alt="MacClean icon">
@@ -23,6 +25,14 @@ No ads, no subscriptions, no background helpers. One window, two tabs.
 **Clean tab**: measure the junk, tick what to clear, clean.
 
 ![Clean tab](docs/screenshot-clean.png)
+
+**Keyboard tab**: pick how long to lock for and start Clean Mode.
+
+![Keyboard tab](docs/screenshot-keyboard.png)
+
+**Clean Mode**: every screen shows this while the keyboard and trackpad are locked.
+
+![Clean Mode lock screen](docs/screenshot-cleanmode.png)
 
 **Dark mode**: MacClean follows your system appearance.
 
@@ -51,6 +61,18 @@ No ads, no subscriptions, no background helpers. One window, two tabs.
   user caches, log files, Xcode DerivedData, iOS device support files, simulator caches, the npm cache, Gradle caches and the Trash.
 - Items go to the Trash by default. Tick **Delete permanently** to skip it.
 - Emptying the Trash is always permanent and is never pre-selected.
+
+**Keyboard tab (Clean Mode)**
+- Locks every keyboard, trackpad and mouse, including Bluetooth ones, so you can wipe the keys and the body of the Mac. Nothing you press gets through: no typing, no clicks, no ⌘ Tab, ⌘ Space, Mission Control, Globe key, or volume and brightness keys.
+- Pick how long to lock for (30 seconds to 10 minutes). A countdown is shown on every screen, and the display stays awake until it ends.
+- Unlocks by itself when the time is up. To unlock sooner, hold the Escape key for 3 seconds.
+- Start it from the Keyboard tab, from **Clean Mode > Start Clean Mode** (⇧⌘L), or from the keyboard icon in the menu bar.
+- Needs Accessibility access (System Settings > Privacy & Security > Accessibility). Without it, Clean Mode still blocks typing and clicks, but system shortcuts and the media keys keep working, and the lock screen says so.
+- The power button (Touch ID) is handled by macOS before any app sees it, so leave it alone while cleaning.
+
+**Menu bar**
+- A keyboard icon in the menu bar starts Clean Mode without opening the window. Turn it off in the Keyboard tab or the Clean Mode menu if you don't want it.
+- While the icon is shown, MacClean keeps running after you close its window; pick **Quit MacClean** from the icon's menu to quit.
 
 ## Install
 
@@ -93,6 +115,8 @@ MacClean checks GitHub Releases for a newer version once a day when it starts, a
 ## How it works
 
 - Everything is plain Swift and SwiftUI, with no third-party dependencies.
+- Clean Mode installs a CGEvent tap that drops every keyboard, pointer and media-key event for the login session, and covers each screen with a window above the menu bar and full-screen apps. The tap is what needs Accessibility access; the overlay works without it. The tap is removed the moment Clean Mode ends, and nothing is logged or recorded.
+- Because downloaded builds are signed ad hoc, macOS ties the Accessibility grant to that exact build. After updating MacClean, if the grant stops working, remove MacClean from the Accessibility list and add it again.
 - The Homebrew cask lives in `Casks/macclean.rb`. `scripts/release.sh` pins it to each release zip's version and checksum.
 - Installers are matched to apps by name: the file name is split into words and compared with each installed app's name, so `Postman-osx-11.2.dmg` matches Postman but `search-results.dmg` does not match Arc.
 - Leftovers are matched by the app's bundle identifier (for example `com.vendor.app`, plus helpers like `com.vendor.app.helper`) and, as a fallback, by its exact name. Names shorter than three characters are ignored to avoid false matches.
@@ -100,7 +124,7 @@ MacClean checks GitHub Releases for a newer version once a day when it starts, a
 - Removal uses `FileManager.trashItem`, the same thing Finder does. Permanent deletion uses `removeItem`.
 - Nothing runs as root. If a file can't be removed, MacClean tells you which one and why.
 
-The README previews are rendered from the HTML in `docs/previews` with `node docs/previews/render.js docs` (needs Playwright). To replace them with real screenshots, run the app, press Cmd-Shift-4 then Space, click the window, and save the files over `docs/screenshot-apps.png` and `docs/screenshot-clean.png`.
+The README previews are rendered from the HTML in `docs/previews` with `node docs/previews/render.js docs` (needs Playwright; add preview names such as `keyboard` to render only those). To replace them with real screenshots, run the app, press Cmd-Shift-4 then Space, click the window, and save the files over `docs/screenshot-apps.png` and `docs/screenshot-clean.png`.
 
 The app icon is drawn by `scripts/make_icon.py` (needs Pillow), which writes `Resources/AppIcon.png` and `Resources/AppIcon.icns`.
 
@@ -109,6 +133,7 @@ The app icon is drawn by `scripts/make_icon.py` (needs Pillow), which writes `Re
 - Quit an app before uninstalling it, otherwise its running processes may recreate files.
 - Clearing caches means apps will be a little slower the first time you open them again.
 - Check the leftover list before confirming. Group containers can be shared by several apps from the same vendor.
+- In Clean Mode, use a soft, lint-free cloth that is barely damp with water. Never spray liquid onto the Mac.
 
 ## Releasing (maintainers)
 

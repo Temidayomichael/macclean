@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f0f10; font-family: Inter, -apple-system, "Helvetica Neue", sans-serif; color: #fff; -webkit-font-smoothing: antialiased; width: 1040px; height: 700px; display: flex; align-items: center; justify-content: center; }
+.stack { display: flex; flex-direction: column; align-items: center; gap: 26px; text-align: center; }
+.kb { width: 64px; height: 64px; color: rgba(255,255,255,.9); }
+h1 { font-size: 40px; font-weight: 600; margin-bottom: 8px; }
+.sub { font-size: 17px; color: rgba(255,255,255,.6); }
+.ring { position: relative; width: 180px; height: 180px; }
+.ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+.ring .t { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.hint { font-size: 14px; color: rgba(255,255,255,.6); }
+</style></head><body>
+<div class="stack">
+ <svg class="kb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M9 14h6"/></svg>
+ <div><h1>Clean Mode</h1><div class="sub">Keyboard and trackpad are locked. Wipe away.</div></div>
+ <div class="ring">
+  <svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="85" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="10"/><circle cx="90" cy="90" r="85" fill="none" stroke="#2f6ff2" stroke-width="10" stroke-linecap="round" stroke-dasharray="534" stroke-dashoffset="160"/></svg>
+  <div class="t">1:24</div>
+ </div>
+ <div class="hint">Unlocks when the timer ends. To unlock now, hold esc for 3 seconds.</div>
+</div>
+</body></html>
