@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- Maintenance release used to try **Install Update** end to end from 0.2.0. No changes to the app itself.
+
 ## 0.2.0
 
 - **Clean Mode**: locks the keyboard, trackpad and mouse so you can wipe your Mac without typing, clicking or triggering shortcuts. Pick 30 seconds to 10 minutes; a countdown shows on every screen, and holding Escape for 3 seconds unlocks early. Needs Accessibility access for a full lock; without it, typing and clicks are still blocked.
